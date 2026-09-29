@@ -1,0 +1,16 @@
+{
+  "name": "agent-financial-blackbox",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "dev:api": "pnpm --filter @blackbox/api dev",
+    "dev:desktop": "pnpm --filter @blackbox/desktop dev",
+    "build": "pnpm -r --sort build",
+    "typecheck": "pnpm -r --sort typecheck",
+    "test": "pnpm -r --sort test",
+    "db:generate": "pnpm --filter @blackbox/api db:generate",
+    "db:migrate": "pnpm --filter @blackbox/api db:migrate",
+    "db:seed": "pnpm --filter @blackbox/api db:seed"
+  }
+}

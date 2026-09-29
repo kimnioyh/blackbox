@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+enum CaseStatus {
+  CREATED
+  IN_PROGRESS
+  VERIFIED
+  BLOCKED
+  DISPUTED
+  CLOSED
+}
+enum EventType {
+  USER_INSTRUCTION
+  POLICY_PARSED
+  AGENT_DECISION
+  POLICY_CHECK
+  HUMAN_APPROVAL
+  PAYMENT_EXECUTED
+  PAYMENT_BLOCKED
+  DISPUTE_CREATED
+  AUDIT_RESULT
+  PROOF_RECORDED
+}
+enum ActorType {
+  USER
+  AGENT
+  SYSTEM
+  EXTERNAL_SERVICE
+}
+enum EventSource {
+  REST_API
+  MCP
+  INTERNAL
+  PAYMENT_PROVIDER
+  BLOCKCHAIN
+}
+enum VerificationLevel {
+  SELF_REPORTED
+  SIGNED
+  EXTERNALLY_VERIFIED
+  ON_CHAIN
+}
+enum ApprovalDecision {
+  APPROVED
+  REJECTED
+}
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  BLOCKED
+}
+enum AuditVerdict {
+  COMPLIANT
+  VIOLATION
+  INCONCLUSIVE
+}
+enum ProofStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
+enum FlowType {
+  POLICY_EXTRACTION
+  AUDIT_EXPLANATION
+}
+
+model User {
+  id String @id @default(cuid())
+  email String? @unique
+  name String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  memberships OrganizationMember[]
+  ownedCases Case[] @relation("CaseOwner")
+  approvals Approval[]
+  @@map("users")
+}
+
+model Organization {
+  id String @id @default(cuid())
+  name String
+  slug String @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  members OrganizationMember[]
+  agents Agent[]
+  cases Case[]
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id String @id @default(cuid())
+  userId String @map("user_id")
+  organizationId String @map("organization_id")
+  role OrganizationRole
+  user User @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
+
+model Agent {
+  id String @id @default(cuid())
+  organizationId String @map("organization_id")
+  name String
+  externalAgentId String? @map("external_agent_id")
+  description String?
+  createdAt DateTime @default(now()) @map("created_at")
+  organization Organization @relation(fields: [organizationId], references: [id])
+  cases Case[]
+  @@map("agents")
+}
+
+model Case {
+  id String @id @default(cuid())
+  organizationId String? @map("organization_id")
+  ownerUserId String? @map("owner_user_id")
+  agentId String? @map("agent_id")
+  externalUserId String? @map("external_user_id")
+  externalCaseId String? @map("external_case_id")
+  title String
+  status CaseStatus @default(CREATED)
+  currentPolicyVersion Int? @map("current_policy_version")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  closedAt DateTime? @map("closed_at")
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  ownerUser User? @relation("CaseOwner", fields: [ownerUserId], references: [id])
+  agent Agent? @relation(fields: [agentId], references: [id])
+  events Event[]
+  policies Policy[]
+  approvals Approval[]
+  payments Payment[]
+  auditResults AuditResult[]
+  blockchainProofs BlockchainProof[]
+  modelInvocations ModelInvocation[]
+  @@index([createdAt])
+  @@map("cases")
+}
+
+model Event {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  idempotencyKey String @map("idempotency_key")
+  sequence Int
+  eventType EventType @map("event_type")
+  actorType ActorType @map("actor_type")
+  actorId String? @map("actor_id")
+  source EventSource
+  verificationLevel VerificationLevel @map("verification_level")
+  payload Json @db.JsonB
+  previousEventHash String? @map("previous_event_hash")
+  eventHash String @map("event_hash")
+  occurredAt DateTime @map("occurred_at")
+  receivedAt DateTime @default(now()) @map("received_at")
+  case Case @relation(fields: [caseId], references: [id])
+  @@unique([caseId, idempotencyKey])
+  @@unique([caseId, sequence])
+  @@map("events")
+}
+
+model Policy {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  version Int
+  maxAmount Decimal? @db.Decimal(20, 2) @map("max_amount")
+  currency String?
+  allowedMerchants Json @db.JsonB @map("allowed_merchants")
+  deadline DateTime?
+  rawPolicy Json @db.JsonB @map("raw_policy")
+  createdAt DateTime @default(now()) @map("created_at")
+  case Case @relation(fields: [caseId], references: [id])
+  @@unique([caseId, version])
+  @@map("policies")
+}
+
+model Approval {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  decision ApprovalDecision
+  actorUserId String? @map("actor_user_id")
+  externalActorId String? @map("external_actor_id")
+  approvedAmount Decimal? @db.Decimal(20, 2) @map("approved_amount")
+  currency String?
+  createdAt DateTime @default(now()) @map("created_at")
+  case Case @relation(fields: [caseId], references: [id])
+  actorUser User? @relation(fields: [actorUserId], references: [id])
+  @@map("approvals")
+}
+
+model Payment {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  externalPaymentId String? @map("external_payment_id")
+  merchant String
+  subtotal Decimal @db.Decimal(20, 2)
+  fee Decimal @db.Decimal(20, 2)
+  totalAmount Decimal @db.Decimal(20, 2) @map("total_amount")
+  currency String
+  status PaymentStatus
+  executedAt DateTime? @map("executed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  case Case @relation(fields: [caseId], references: [id])
+  @@map("payments")
+}
+
+model AuditResult {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  verdict AuditVerdict
+  summary String
+  violations Json @db.JsonB
+  model String
+  createdAt DateTime @default(now()) @map("created_at")
+  case Case @relation(fields: [caseId], references: [id])
+  @@map("audit_results")
+}
+
+model BlockchainProof {
+  id String @id @default(cuid())
+  caseId String @map("case_id")
+  recordHash String @map("record_hash")
+  chainId Int @map("chain_id")
+  contractAddress String @map("contract_address")
+  txHash String @map("tx_hash")
+  blockNumber BigInt? @map("block_number")
+  status ProofStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  confirmedAt DateTime? @map("confirmed_at")
+  case Case @relation(fields: [caseId], references: [id])
+  @@map("blockchain_proofs")
+}
+
+model ModelInvocation {
+  id String @id @default(cuid())
+  caseId String? @map("case_id")
+  flowType FlowType @map("flow_type")
+  model String
+  inputTokens Int @map("input_tokens")
+  outputTokens Int @map("output_tokens")
+  totalTokens Int @map("total_tokens")
+  latencyMs Int @map("latency_ms")
+  success Boolean
+  errorMessage String? @map("error_message")
+  createdAt DateTime @default(now()) @map("created_at")
+  case Case? @relation(fields: [caseId], references: [id])
+  @@map("model_invocations")
+}
