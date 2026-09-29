@@ -23,7 +23,7 @@ export class CasesService {
   async get(id: string) {
     const found = await this.prisma.case.findUnique({ where: { id } });
     if (!found) throw new NotFoundException({ code: 'CASE_NOT_FOUND', message: 'Case not found' });
-    const [currentPolicy, events, modelInvocations, approvals, payments, proofs] = await Promise.all([
+    const [currentPolicy, events, modelInvocations, approvals, payments, proofs, audits] = await Promise.all([
       found.currentPolicyVersion === null ? Promise.resolve(null) : this.prisma.policy.findUnique({
         where: { caseId_version: { caseId: id, version: found.currentPolicyVersion } },
       }),
@@ -32,6 +32,7 @@ export class CasesService {
       this.prisma.approval.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
       this.prisma.payment.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
       this.prisma.blockchainProof.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
+      this.prisma.auditResult.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
     ]);
     return {
       ...found, currentPolicy: currentPolicy ? serializePolicy(currentPolicy) : null,
@@ -39,6 +40,7 @@ export class CasesService {
       approvals: approvals.map((row) => ({ ...row, approvedAmount: row.approvedAmount?.toFixed(2) ?? null })),
       payments: payments.map((row) => ({ ...row, subtotal: row.subtotal.toFixed(2), fee: row.fee.toFixed(2), totalAmount: row.totalAmount.toFixed(2) })),
       proofs: proofs.map((row) => ({ ...row, blockNumber: row.blockNumber?.toString() ?? null })),
+      audits,
     };
   }
 }

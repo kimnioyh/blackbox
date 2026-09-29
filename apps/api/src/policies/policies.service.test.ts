@@ -72,7 +72,7 @@ test('policy parsing saves a version, timeline event, and observed Kiln usage co
   const kiln = { parsePolicy: async () => ({
     policy: { maxAmount: '50.00', currency: 'USD', allowedMerchants: ['Amazon'], deadline: null },
     model: 'qwen3-32b', inputTokens: 106, outputTokens: 268, totalTokens: 374, latencyMs: 4687,
-  }) } as KilnService;
+  }) } as unknown as KilnService;
 
   const result = await new PoliciesService(prisma, events, kiln).parse('case-1', 'parse-1');
   assert.equal(result.policy.version, 1);

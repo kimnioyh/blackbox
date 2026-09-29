@@ -30,6 +30,8 @@ See [Phase 3 demo](docs/demo/phase3.md) for exact PowerShell API calls. Set `KIL
 
 See [Phase 4–5 verification](docs/demo/phase45.md) for approval, external payment, dispute, Sepolia proof deployment, and the three HTTP demo scenarios.
 
+See [Phase 6 financial audit](docs/demo/phase6.md) for Qwen3-32B audit explanations, usage totals, and three reproducible HTTP scenarios.
+
 The example environment uses the public Sepolia RPC at `https://ethereum-sepolia-rpc.publicnode.com` with `CHAIN_ID=11155111`. Set `CHAIN_RPC_URL` in `apps/api/.env` to switch providers. Keep `BLOCKCHAIN_PRIVATE_KEY` only in the ignored local environment file; blockchain transactions are not implemented yet.
 
 `pnpm build`, `pnpm typecheck`, and `pnpm test` check the workspace. All API monetary values are decimal strings. Event payloads are validated by event type. Duplicate event requests with the same `(caseId, idempotencyKey)` return the stored event; reusing a key with different content returns 409.

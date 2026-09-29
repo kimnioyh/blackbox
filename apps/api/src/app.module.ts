@@ -6,6 +6,8 @@ import { KilnModule } from './kiln/kiln.module.js';
 import { PoliciesModule } from './policies/policies.module.js';
 import { FinancialModule } from './financial/financial.module.js';
 import { ProofsModule } from './blockchain/proofs.module.js';
+import { AuditsModule } from './audits/audits.module.js';
+import { UsageModule } from './usage/usage.module.js';
 
-@Module({ imports: [PrismaModule, CasesModule, EventsModule, KilnModule, PoliciesModule, FinancialModule, ProofsModule] })
+@Module({ imports: [PrismaModule, CasesModule, EventsModule, KilnModule, PoliciesModule, FinancialModule, ProofsModule, AuditsModule, UsageModule] })
 export class AppModule {}

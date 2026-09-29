@@ -32,6 +32,7 @@ export const AuditOutputSchema = z.object({
   violations: z.array(z.object({ rule: PolicyRuleSchema, description: z.string().min(1) }).strict()),
 }).strict();
 
+
 export const CreateCaseSchema = z.object({
   title: z.string().trim().min(1).max(255),
   organizationId: z.string().min(1).nullable().optional(),
@@ -61,6 +62,19 @@ export const PolicyCheckPayloadSchema = z.object({
   policyId: z.string().min(1), result: z.enum(['ALLOW', 'BLOCK']),
   checks: z.array(z.object({ rule: PolicyRuleSchema, expected: z.string(), actual: z.string(), result: z.enum(['PASS', 'FAIL']) }).strict()),
   reasonCodes: z.array(z.string()),
+}).strict();
+export const CaseAuditInputSchema = z.object({
+  missingEvidence: z.array(z.enum(['USER_INSTRUCTION', 'POLICY', 'PAYMENT'])),
+  instruction: z.string().nullable(),
+  policy: ParsedPolicySchema.nullable(),
+  agentDecision: AgentDecisionPayloadSchema.nullable(),
+  policyCheck: PolicyCheckPayloadSchema.nullable(),
+  approval: z.object({ decision: ApprovalDecisionSchema, approvedAmount: MoneyAmountSchema.nullable(), currency: CurrencySchema.nullable(), beforePayment: z.boolean().nullable() }).strict().nullable(),
+  payment: z.object({ merchant: z.string(), subtotal: MoneyAmountSchema, fee: MoneyAmountSchema, totalAmount: MoneyAmountSchema, currency: CurrencySchema, status: PaymentStatusSchema, executedAt: DateTimeSchema.nullable() }).strict().nullable(),
+  dispute: z.object({ reason: z.string(), disputedPaymentId: z.string().nullable() }).strict().nullable(),
+  proof: z.object({ status: ProofStatusSchema, verified: z.boolean() }).strict().nullable(),
+  paymentChecks: z.array(z.object({ rule: PolicyRuleSchema, expected: z.string(), actual: z.string(), result: z.enum(['PASS', 'FAIL', 'UNKNOWN']) }).strict()),
+  expectedVerdict: AuditVerdictSchema,
 }).strict();
 const approval = z.object({ approvalId: z.string().min(1).optional(), decision: ApprovalDecisionSchema, approvedAmount: MoneyAmountSchema.optional(), currency: CurrencySchema.optional() }).strict();
 const payment = z.object({
@@ -123,6 +137,7 @@ export type FinancialEventInput = z.infer<typeof FinancialEventInputSchema>;
 export type AppendEventRequest = z.infer<typeof AppendEventRequestSchema>;
 export type ParsedPolicy = z.infer<typeof ParsedPolicySchema>;
 export type AuditOutput = z.infer<typeof AuditOutputSchema>;
+export type CaseAuditInput = z.infer<typeof CaseAuditInputSchema>;
 export type CaseStatus = z.infer<typeof CaseStatusSchema>;
 export type AgentDecisionPayload = z.infer<typeof AgentDecisionPayloadSchema>;
 export type PolicyCheckPayload = z.infer<typeof PolicyCheckPayloadSchema>;
