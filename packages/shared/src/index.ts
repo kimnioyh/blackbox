@@ -62,14 +62,14 @@ export const PolicyCheckPayloadSchema = z.object({
   checks: z.array(z.object({ rule: PolicyRuleSchema, expected: z.string(), actual: z.string(), result: z.enum(['PASS', 'FAIL']) }).strict()),
   reasonCodes: z.array(z.string()),
 }).strict();
-const approval = z.object({ decision: ApprovalDecisionSchema, approvedAmount: MoneyAmountSchema.optional(), currency: CurrencySchema.optional() }).strict();
+const approval = z.object({ approvalId: z.string().min(1).optional(), decision: ApprovalDecisionSchema, approvedAmount: MoneyAmountSchema.optional(), currency: CurrencySchema.optional() }).strict();
 const payment = z.object({
   paymentId: z.string().min(1), merchant: z.string().min(1), subtotal: MoneyAmountSchema,
   fee: MoneyAmountSchema, totalAmount: MoneyAmountSchema, currency: CurrencySchema,
   status: PaymentStatusSchema, externalPaymentId: z.string().optional(),
 }).strict();
 const paymentBlocked = z.object({ attemptedAmount: MoneyAmountSchema, currency: CurrencySchema, reasonCodes: z.array(z.string()) }).strict();
-const dispute = z.object({ reason: z.string().min(1), disputedPaymentId: z.string().min(1), requestedBy: z.literal('USER') }).strict();
+const dispute = z.object({ reason: z.string().min(1), disputedPaymentId: z.string().min(1).optional(), requestedBy: z.literal('USER') }).strict();
 const audit = z.object({
   auditId: z.string().min(1), verdict: AuditVerdictSchema, summary: z.string().min(1),
   violations: z.array(z.object({ rule: PolicyRuleSchema, description: z.string().min(1) }).strict()),
@@ -94,6 +94,30 @@ export const FinancialEventInputSchema = z.discriminatedUnion('eventType', [
 ]);
 export const AppendEventRequestSchema = FinancialEventInputSchema;
 
+export const CreateApprovalSchema = z.object({
+  decision: ApprovalDecisionSchema,
+  approvedAmount: MoneyAmountSchema.optional(),
+  currency: CurrencySchema.optional(),
+  actorUserId: z.string().min(1).optional(),
+  externalActorId: z.string().min(1).optional(),
+}).strict().refine((value) => value.decision !== 'APPROVED' || (value.approvedAmount !== undefined && value.currency !== undefined), {
+  message: 'APPROVED requires approvedAmount and currency',
+});
+export const CreatePaymentSchema = z.object({
+  externalPaymentId: z.string().min(1).optional(),
+  merchant: z.string().trim().min(1),
+  subtotal: MoneyAmountSchema,
+  fee: MoneyAmountSchema,
+  totalAmount: MoneyAmountSchema,
+  currency: CurrencySchema,
+  status: PaymentStatusSchema,
+  executedAt: DateTimeSchema.optional(),
+}).strict();
+export const CreateDisputeSchema = z.object({
+  reason: z.string().trim().min(1),
+  disputedPaymentId: z.string().min(1).optional(),
+}).strict();
+
 export type CreateCaseInput = z.infer<typeof CreateCaseSchema>;
 export type FinancialEventInput = z.infer<typeof FinancialEventInputSchema>;
 export type AppendEventRequest = z.infer<typeof AppendEventRequestSchema>;
@@ -102,3 +126,6 @@ export type AuditOutput = z.infer<typeof AuditOutputSchema>;
 export type CaseStatus = z.infer<typeof CaseStatusSchema>;
 export type AgentDecisionPayload = z.infer<typeof AgentDecisionPayloadSchema>;
 export type PolicyCheckPayload = z.infer<typeof PolicyCheckPayloadSchema>;
+export type CreateApprovalInput = z.infer<typeof CreateApprovalSchema>;
+export type CreatePaymentInput = z.infer<typeof CreatePaymentSchema>;
+export type CreateDisputeInput = z.infer<typeof CreateDisputeSchema>;

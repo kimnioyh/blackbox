@@ -12,7 +12,7 @@ async function bootstrap() {
   app.useGlobalFilters(new ApiExceptionFilter());
   const config = new DocumentBuilder()
     .setTitle('Agent Financial Black Box API')
-    .setDescription('LLM interprets. Code enforces. Blockchain proves. Phase 1–2 Case/Event API.')
+    .setDescription('LLM interprets. Code enforces. Blockchain proves. Case, policy, financial flow, and Sepolia proof API.')
     .setVersion('1.0').build();
   SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, config));
   await app.listen(Number(process.env.API_PORT ?? 3000));

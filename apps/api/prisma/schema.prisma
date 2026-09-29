@@ -190,6 +190,7 @@ model Policy {
 model Approval {
   id String @id @default(cuid())
   caseId String @map("case_id")
+  idempotencyKey String? @map("idempotency_key")
   decision ApprovalDecision
   actorUserId String? @map("actor_user_id")
   externalActorId String? @map("external_actor_id")
@@ -198,12 +199,14 @@ model Approval {
   createdAt DateTime @default(now()) @map("created_at")
   case Case @relation(fields: [caseId], references: [id])
   actorUser User? @relation(fields: [actorUserId], references: [id])
+  @@unique([caseId, idempotencyKey])
   @@map("approvals")
 }
 
 model Payment {
   id String @id @default(cuid())
   caseId String @map("case_id")
+  idempotencyKey String? @map("idempotency_key")
   externalPaymentId String? @map("external_payment_id")
   merchant String
   subtotal Decimal @db.Decimal(20, 2)
@@ -214,6 +217,7 @@ model Payment {
   executedAt DateTime? @map("executed_at")
   createdAt DateTime @default(now()) @map("created_at")
   case Case @relation(fields: [caseId], references: [id])
+  @@unique([caseId, idempotencyKey])
   @@map("payments")
 }
 
@@ -232,6 +236,7 @@ model AuditResult {
 model BlockchainProof {
   id String @id @default(cuid())
   caseId String @map("case_id")
+  evidenceSequence Int @map("evidence_sequence")
   recordHash String @map("record_hash")
   chainId Int @map("chain_id")
   contractAddress String @map("contract_address")

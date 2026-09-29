@@ -12,3 +12,11 @@ export function canonicalJson(value: unknown): string {
 export function hashCanonical(value: unknown): `0x${string}` {
   return keccak256(stringToHex(canonicalJson(value)));
 }
+
+/** Only this opaque digest and the evidence digest are sent to the public chain. */
+export function caseIdHash(caseId: string): `0x${string}` {
+  return keccak256(stringToHex(caseId));
+}
+
+export { proofRegistryAbi } from './abi.js';
+export { ProofChainClient, type ProofChainConfig } from './proof-client.js';

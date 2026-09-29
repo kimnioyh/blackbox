@@ -5,8 +5,25 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
-  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc --noEmit -p tsconfig.json", "test": "node --test dist/*.test.js" },
-  "dependencies": { "viem": "^2.37.0" },
-  "devDependencies": { "typescript": "^5.9.0", "@types/node": "^24.0.0" }
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test dist/*.test.js",
+    "contract:compile": "node scripts/contract.mjs compile",
+    "contract:deploy": "node --env-file=../../apps/api/.env scripts/contract.mjs deploy"
+  },
+  "dependencies": {
+    "viem": "^2.37.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "solc": "^0.8.37",
+    "typescript": "^5.9.0"
+  }
 }
