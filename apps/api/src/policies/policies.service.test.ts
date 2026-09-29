@@ -57,7 +57,7 @@ test('policy parsing saves a version, timeline event, and observed Kiln usage co
       findUnique: async () => ({ id: 'case-1', currentPolicyVersion: null }),
       update: async ({ data }: any) => { caseUpdate = data; },
     },
-    policy: { create: async ({ data }: any) => { savedPolicy = { id: 'policy-1', ...data }; return savedPolicy; } },
+    policy: { create: async ({ data }: any) => { savedPolicy = { id: 'policy-1', ...data, maxAmount: new Prisma.Decimal(data.maxAmount) }; return savedPolicy; } },
   };
   const prisma = {
     case: { findUnique: async () => ({ id: 'case-1' }) },
@@ -76,7 +76,7 @@ test('policy parsing saves a version, timeline event, and observed Kiln usage co
 
   const result = await new PoliciesService(prisma, events, kiln).parse('case-1', 'parse-1');
   assert.equal(result.policy.version, 1);
-  assert.equal(savedPolicy.maxAmount, '50.00');
+  assert.equal(result.policy.maxAmount, '50.00');
   assert.deepEqual(caseUpdate, { currentPolicyVersion: 1, status: 'IN_PROGRESS' });
   assert.equal(parsedEvent.eventType, 'POLICY_PARSED');
   assert.equal(parsedEvent.payload.policyId, 'policy-1');

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import type { CreateCaseInput } from '@blackbox/shared';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { serializePolicy } from '../common/serialize-policy.js';
 
 @Injectable()
 export class CasesService {
@@ -29,6 +30,6 @@ export class CasesService {
       this.prisma.event.findMany({ where: { caseId: id }, orderBy: { sequence: 'asc' } }),
       this.prisma.modelInvocation.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
     ]);
-    return { ...found, currentPolicy, events, modelInvocations };
+    return { ...found, currentPolicy: currentPolicy ? serializePolicy(currentPolicy) : null, events, modelInvocations };
   }
 }

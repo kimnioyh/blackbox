@@ -7,6 +7,7 @@ import { Prisma } from '../generated/prisma/client.js';
 import { EventsService } from '../events/events.service.js';
 import { KilnService } from '../kiln/kiln.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { serializePolicy } from '../common/serialize-policy.js';
 import { evaluatePolicy } from './policy-evaluator.js';
 
 function instructionText(payload: Prisma.JsonValue): string {
@@ -34,7 +35,7 @@ export class PoliciesService {
     }
     const policy = await this.prisma.policy.findUnique({ where: { id: policyId } });
     if (!policy) throw new ConflictException({ code: 'POLICY_EVENT_MISMATCH', message: 'Recorded policy event has no policy' });
-    return { policy, event };
+    return { policy: serializePolicy(policy), event };
   }
 
   async parse(caseId: string, requestKey: string) {
@@ -76,7 +77,7 @@ export class PoliciesService {
             if (existing.eventType !== 'POLICY_PARSED' || typeof policyId !== 'string') throw new ConflictException({ code: 'IDEMPOTENCY_CONFLICT', message: 'Request key belongs to another event' });
             const policy = await tx.policy.findUnique({ where: { id: policyId } });
             if (!policy) throw new ConflictException({ code: 'POLICY_EVENT_MISMATCH', message: 'Recorded policy event has no policy' });
-            return { policy, event: existing };
+            return { policy: serializePolicy(policy), event: existing };
           }
           const currentCase = await tx.case.findUnique({ where: { id: caseId } });
           if (!currentCase) throw new NotFoundException({ code: 'CASE_NOT_FOUND', message: 'Case not found' });
@@ -98,7 +99,7 @@ export class PoliciesService {
             payload: { policyId: policy.id, policy: result.policy satisfies ParsedPolicy },
           }));
           await tx.case.update({ where: { id: caseId }, data: { currentPolicyVersion: version, status: 'IN_PROGRESS' } });
-          return { policy, event };
+          return { policy: serializePolicy(policy), event };
         }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError && ['P2002', 'P2034'].includes(error.code)) continue;
