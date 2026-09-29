@@ -22,6 +22,13 @@ export class CasesService {
   async get(id: string) {
     const found = await this.prisma.case.findUnique({ where: { id } });
     if (!found) throw new NotFoundException({ code: 'CASE_NOT_FOUND', message: 'Case not found' });
-    return found;
+    const [currentPolicy, events, modelInvocations] = await Promise.all([
+      found.currentPolicyVersion === null ? Promise.resolve(null) : this.prisma.policy.findUnique({
+        where: { caseId_version: { caseId: id, version: found.currentPolicyVersion } },
+      }),
+      this.prisma.event.findMany({ where: { caseId: id }, orderBy: { sequence: 'asc' } }),
+      this.prisma.modelInvocation.findMany({ where: { caseId: id }, orderBy: { createdAt: 'desc' } }),
+    ]);
+    return { ...found, currentPolicy, events, modelInvocations };
   }
 }

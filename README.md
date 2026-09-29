@@ -2,7 +2,7 @@
 
 **LLM interprets. Code enforces. Blockchain proves.**
 
-Phase 1–2 foundation: NestJS core API, Electron desktop scaffold, shared Zod contracts, Prisma/PostgreSQL domain, and append-only event hash chain. Kiln, on-chain proof submission, MCP, and financial workflow endpoints belong to later phases.
+Phase 1–3 foundation: NestJS core API, Electron desktop scaffold, shared Zod contracts, Prisma/PostgreSQL domain, append-only event hash chain, and the first instruction → policy → check workflow. On-chain proof submission, MCP, and payment workflows belong to later phases.
 
 ## Requirements
 
@@ -25,5 +25,7 @@ On PowerShell, use `Copy-Item .env.example apps/api/.env`.
 `dev:api` builds once, then starts the server; rerun it after source edits.
 
 API: `http://localhost:3000/api/v1`; Swagger: `http://localhost:3000/docs`.
+
+See [Phase 3 demo](docs/demo/phase3.md) for exact PowerShell API calls. Set `KILN_API_KEY` only in `apps/api/.env` or the API process environment. Kiln uses the documented `qwen3-32b` model ID.
 
 `pnpm build`, `pnpm typecheck`, and `pnpm test` check the workspace. All API monetary values are decimal strings. Event payloads are validated by event type. Duplicate event requests with the same `(caseId, idempotencyKey)` return the stored event; reusing a key with different content returns 409.

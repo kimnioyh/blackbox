@@ -51,13 +51,13 @@ const baseEvent = {
 };
 const instruction = z.object({ text: z.string().min(1), locale: z.string().min(2).optional() }).strict();
 const policyParsed = z.object({ policyId: z.string().min(1), policy: ParsedPolicySchema }).strict();
-const agentDecision = z.object({
+export const AgentDecisionPayloadSchema = z.object({
   action: z.enum(['PURCHASE', 'PAYMENT', 'TRANSFER']), merchant: z.string().min(1),
   item: z.object({ name: z.string().min(1) }).strict(),
   subtotal: MoneyAmountSchema, estimatedFee: MoneyAmountSchema, estimatedTotal: MoneyAmountSchema,
   currency: CurrencySchema, reasonSummary: z.string().optional(),
 }).strict();
-const policyCheck = z.object({
+export const PolicyCheckPayloadSchema = z.object({
   policyId: z.string().min(1), result: z.enum(['ALLOW', 'BLOCK']),
   checks: z.array(z.object({ rule: PolicyRuleSchema, expected: z.string(), actual: z.string(), result: z.enum(['PASS', 'FAIL']) }).strict()),
   reasonCodes: z.array(z.string()),
@@ -83,8 +83,8 @@ const proof = z.object({
 export const FinancialEventInputSchema = z.discriminatedUnion('eventType', [
   z.object({ ...baseEvent, eventType: z.literal('USER_INSTRUCTION'), payload: instruction }).strict(),
   z.object({ ...baseEvent, eventType: z.literal('POLICY_PARSED'), payload: policyParsed }).strict(),
-  z.object({ ...baseEvent, eventType: z.literal('AGENT_DECISION'), payload: agentDecision }).strict(),
-  z.object({ ...baseEvent, eventType: z.literal('POLICY_CHECK'), payload: policyCheck }).strict(),
+  z.object({ ...baseEvent, eventType: z.literal('AGENT_DECISION'), payload: AgentDecisionPayloadSchema }).strict(),
+  z.object({ ...baseEvent, eventType: z.literal('POLICY_CHECK'), payload: PolicyCheckPayloadSchema }).strict(),
   z.object({ ...baseEvent, eventType: z.literal('HUMAN_APPROVAL'), payload: approval }).strict(),
   z.object({ ...baseEvent, eventType: z.literal('PAYMENT_EXECUTED'), payload: payment }).strict(),
   z.object({ ...baseEvent, eventType: z.literal('PAYMENT_BLOCKED'), payload: paymentBlocked }).strict(),
@@ -100,3 +100,5 @@ export type AppendEventRequest = z.infer<typeof AppendEventRequestSchema>;
 export type ParsedPolicy = z.infer<typeof ParsedPolicySchema>;
 export type AuditOutput = z.infer<typeof AuditOutputSchema>;
 export type CaseStatus = z.infer<typeof CaseStatusSchema>;
+export type AgentDecisionPayload = z.infer<typeof AgentDecisionPayloadSchema>;
+export type PolicyCheckPayload = z.infer<typeof PolicyCheckPayloadSchema>;

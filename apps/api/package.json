@@ -7,7 +7,7 @@
     "dev": "pnpm build && node dist/main.js",
     "build": "prisma generate && tsc -p tsconfig.build.json",
     "typecheck": "prisma generate && tsc --noEmit -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && node --test dist/events/events.service.test.js",
+    "test": "tsc -p tsconfig.json && node --test dist/events/events.service.test.js dist/kiln/kiln.service.test.js dist/policies/policy-evaluator.test.js dist/policies/policies.service.test.js",
     "start": "node dist/main.js",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",

@@ -3,5 +3,5 @@ import { CasesModule } from '../cases/cases.module.js';
 import { EventsController } from './events.controller.js';
 import { EventsService } from './events.service.js';
 
-@Module({ imports: [CasesModule], controllers: [EventsController], providers: [EventsService] })
+@Module({ imports: [CasesModule], controllers: [EventsController], providers: [EventsService], exports: [EventsService] })
 export class EventsModule {}
