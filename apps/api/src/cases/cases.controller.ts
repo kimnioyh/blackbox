@@ -19,7 +19,7 @@ export class CasesController {
   create(@Body() body: unknown) { return this.cases.create(parseBody(CreateCaseSchema, body)); }
 
   @Get()
-  @ApiOperation({ summary: 'List recent Cases' })
+  @ApiOperation({ summary: 'List Cases with dashboard summary fields' })
   list() { return this.cases.list(); }
 
   @Get(':caseId')

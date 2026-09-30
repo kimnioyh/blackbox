@@ -6,6 +6,8 @@
   "scripts": {
     "dev:api": "pnpm --filter @blackbox/api dev",
     "dev:desktop": "pnpm --filter @blackbox/desktop dev",
+    "dev:mcp": "pnpm --filter @blackbox/mcp dev",
+    "verify:mcp": "pnpm --filter @blackbox/mcp verify",
     "build": "pnpm -r --sort build",
     "typecheck": "pnpm -r --sort typecheck",
     "test": "pnpm -r --sort test",

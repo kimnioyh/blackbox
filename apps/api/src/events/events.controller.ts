@@ -23,10 +23,10 @@ export class EventsController {
     if (input.eventType !== 'USER_INSTRUCTION' && input.eventType !== 'AGENT_DECISION') {
       throw new BadRequestException({ code: 'EVENT_TYPE_NOT_WRITABLE', message: 'Use the dedicated workflow endpoint for this event type' });
     }
-    if (input.source !== 'REST_API' || input.verificationLevel !== 'SELF_REPORTED' ||
+    if (!['REST_API', 'MCP'].includes(input.source) || input.verificationLevel !== 'SELF_REPORTED' ||
       (input.eventType === 'USER_INSTRUCTION' && input.actorType !== 'USER') ||
       (input.eventType === 'AGENT_DECISION' && input.actorType !== 'AGENT')) {
-      throw new BadRequestException({ code: 'INVALID_EVENT_PROVENANCE', message: 'External instruction/decision events must use REST_API and SELF_REPORTED provenance with the matching actor type' });
+      throw new BadRequestException({ code: 'INVALID_EVENT_PROVENANCE', message: 'External instruction/decision events must use REST_API or MCP and SELF_REPORTED provenance with the matching actor type' });
     }
     if (headerKey && input.idempotencyKey && headerKey !== input.idempotencyKey) {
       throw new BadRequestException({ code: 'IDEMPOTENCY_KEY_MISMATCH', message: 'Header and body idempotency keys differ' });

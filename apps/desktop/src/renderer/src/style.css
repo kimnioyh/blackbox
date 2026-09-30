@@ -1,14 +1,168 @@
 @import "tailwindcss";
-:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #18212c; background: #f7f8fa; }
-body { margin: 0; }
-main { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
-header { display: flex; align-items: start; justify-content: space-between; margin-bottom: 48px; }
-h1 { font-size: 28px; letter-spacing: -.025em; margin: 8px 0; }
-h2 { font-size: 18px; margin: 0 0 20px; }
-small { color: #667383; font-size: 11px; letter-spacing: .12em; }
-section { background: white; border: 1px solid #e4e8ec; border-radius: 8px; padding: 24px; }
-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-th, td { border-bottom: 1px solid #eef0f2; padding: 12px 8px; }
-th { color: #667383; font-weight: 500; }
-label, select { font-size: 13px; }
-select { margin-left: 8px; padding: 6px; }
+
+:root {
+  font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #202b36;
+  background: #f7f8fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 720px; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid #315f85; outline-offset: 2px; }
+.mono { font-family: "Cascadia Code", Consolas, ui-monospace, monospace; }
+.muted { color: #687684; }
+.nowrap { white-space: nowrap; }
+
+.app-shell { display: grid; grid-template-columns: 208px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { display: flex; flex-direction: column; background: #fff; border-right: 1px solid #dce2e7; padding: 17px 10px 12px; }
+.brand { display: flex; align-items: center; gap: 9px; padding: 0 10px; margin-bottom: 32px; }
+.brand-mark { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid #52677a; border-radius: 3px; color: #294457; font: 700 10px "Cascadia Code", Consolas, monospace; flex: none; }
+.brand strong { display: block; font-size: 12px; line-height: 1.25; font-weight: 650; }
+.brand small { display: block; margin-top: 1px; color: #7a8792; font-size: 10px; }
+.sidebar nav { display: grid; gap: 2px; }
+.nav-item { display: flex; align-items: center; gap: 10px; min-height: 35px; padding: 7px 10px; color: #526171; font-size: 12px; border-radius: 3px; }
+.nav-item:hover { background: #f5f7f8; }
+.nav-item.active { background: #edf1f4; color: #253d51; font-weight: 600; }
+.sidebar-bottom { margin-top: auto; border-top: 1px solid #e4e8eb; padding: 10px 8px 0; }
+.language-switch { display: inline-flex; border: 1px solid #d7dee3; border-radius: 3px; overflow: hidden; }
+.language-switch button { border: 0; border-right: 1px solid #d7dee3; padding: 5px 10px; background: #fff; color: #667584; font-size: 10px; font-weight: 600; }
+.language-switch button:last-child { border-right: 0; }
+.language-switch button.selected { background: #e9eef2; color: #213e55; }
+
+.main-area { min-width: 0; }
+.topbar { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; background: #fff; border-bottom: 1px solid #dce2e7; color: #657483; font-size: 11px; }
+.topbar-right { font: 11px "Cascadia Code", Consolas, monospace; color: #7c8994; }
+main { max-width: 1500px; margin: 0 auto; padding: 24px 26px 42px; }
+.page-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.eyebrow { color: #7b8995; font-size: 10px; font-weight: 500; }
+.eyebrow .mono { text-transform: none; letter-spacing: 0; }
+.eyebrow-divider { padding: 0 5px; color: #adb6bd; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin: 0 0 3px; font-size: 24px; line-height: 1.3; letter-spacing: -.025em; font-weight: 630; }
+.page-heading p { margin-bottom: 0; color: #6e7c89; font-size: 12px; }
+.page-count { font: 12px "Cascadia Code", Consolas, monospace; color: #617283; }
+.surface { background: #fff; border: 1px solid #dce2e7; border-radius: 4px; }
+
+.dashboard-heading { margin-bottom: 13px; }
+.metrics-grid { display: flex; flex-wrap: wrap; align-items: baseline; margin-bottom: 28px; }
+.metric { display: inline-flex; align-items: baseline; gap: 12px; padding: 0 20px; border-right: 1px solid #dce2e7; }
+.metric:first-child { padding-left: 0; }
+.metric:last-child { border-right: 0; }
+.metric span { color: #647381; font-size: 12px; }
+.metric strong { color: #253440; font: 500 16px/1 "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 10px; }
+h2 { margin-bottom: 2px; font-size: 14px; font-weight: 630; }
+.section-heading p { margin-bottom: 0; color: #87939d; font-size: 11px; }
+.text-link { display: inline-flex; align-items: center; gap: 4px; color: #2b5b7e; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.text-link:hover, .external-link:hover { text-decoration: underline; }
+.table-section { overflow: hidden; margin-bottom: 24px; }
+.table-scroll { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+.data-table th { color: #687886; font-size: 11px; font-weight: 500; padding: 9px 11px; border-top: 1px solid #dce2e7; border-bottom: 1px solid #e5e9ec; white-space: nowrap; }
+.data-table td { height: 46px; border-bottom: 1px solid #e9edef; padding: 8px 11px; vertical-align: middle; }
+.data-table th:first-child, .data-table td:first-child { padding-left: 0; }
+.data-table th:last-child, .data-table td:last-child { padding-right: 0; }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.case-row { cursor: pointer; }
+.case-row:hover { background: #f8fafb; }
+.case-id { color: #556c80; font-size: 11px; white-space: nowrap; }
+.row-title { color: #293a48; font-weight: 560; min-width: 120px; }
+.subtle-proof { display: inline-flex; align-items: center; gap: 3px; margin-left: 8px; color: #73818b; font-size: 10px; font-weight: 400; white-space: nowrap; }
+.amount-cell { white-space: nowrap; color: #354857; font: 12px "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; }
+.row-chevron { color: #9aa7b0; }
+.status-inline { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; color: #455564; font-size: 11px; font-weight: 400; }
+.status-inline::before, .result-word::before, .payment-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #8d9aa4; flex: none; }
+.status-verified::before, .status-compliant::before, .payment-status.success::before { background: #3d8761; }
+.status-blocked::before, .status-inconclusive::before { background: #b68543; }
+.status-disputed::before, .status-violation::before, .payment-status.failed::before, .payment-status.blocked::before { background: #b85f56; }
+
+.usage-section { margin-bottom: 14px; padding-top: 18px; border-top: 1px solid #e5e9ec; }
+.section-icon { color: #7d8c99; }
+.usage-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.usage-item { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 16px 8px 0; border-right: 1px solid #e5e9ec; }
+.usage-item:not(:first-child) { padding-left: 16px; }
+.usage-item:last-child { border-right: 0; }
+.usage-item span { color: #687987; font-size: 11px; }
+.usage-item strong { color: #283c4c; font: 600 14px "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; }
+.usage-item small { color: #8c98a1; font-size: 10px; white-space: nowrap; }
+.small-state, .empty-panel { padding: 18px; color: #7a8792; font-size: 12px; }
+.state-panel { display: flex; align-items: center; gap: 10px; min-height: 120px; color: #6e7e8c; background: #fff; border: 1px solid #dce2e7; padding: 20px; font-size: 12px; }
+.error-state { flex-direction: column; justify-content: center; text-align: center; }
+.error-state p { margin: 0; }
+.error-state button { color: #265879; border: 1px solid #cbd7df; background: #fff; padding: 6px 11px; border-radius: 3px; font-size: 11px; }
+
+.back-link { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; color: #4c6c82; font-size: 11px; }
+.back-link:hover { color: #1f547d; }
+.detail-heading { margin-bottom: 17px; }
+.detail-heading .eyebrow { margin-bottom: 5px; }
+.detail-heading .status-inline { align-self: center; }
+.detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; align-items: start; gap: 15px; }
+.timeline-surface { overflow: hidden; border: 0; border-radius: 0; background: transparent; }
+.timeline-count { color: #6f7d88; font: 11px "Cascadia Code", Consolas, monospace; }
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline-item { display: grid; grid-template-columns: 70px 150px minmax(0, 1fr); gap: 12px; border-top: 1px solid #e5e9ec; padding: 14px 16px; }
+.event-time { color: #697988; font: 11px/1.45 "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.event-type { min-width: 0; }
+.event-type span { display: block; color: #2c3d4b; font: 600 10px/1.45 "Cascadia Code", Consolas, monospace; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.event-type small { display: block; margin-top: 3px; color: #8996a0; font-size: 10px; }
+.timeline-content { min-width: 0; color: #4d5e6a; }
+.event-quote { margin-bottom: 0; color: #354b5b; font-size: 12px; line-height: 1.5; }
+.event-lines { display: grid; gap: 3px; color: #556572; font-size: 11px; line-height: 1.45; }
+.event-lines strong { color: #2b3d49; font-weight: 600; }
+.event-meta { color: #929ea7; font-size: 9px; margin-top: 7px; }
+.inline-result { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.result-word, .payment-status { display: inline-flex; align-items: center; gap: 6px; color: #435563; font-size: 11px; font-weight: 400; }
+.result-word.success-text::before { background: #3d8761; }
+.result-word.danger-text::before { background: #b85f56; }
+.reason-tag { color: #687886; font-size: 11px; }
+.checks-list { display: grid; gap: 2px; margin-top: 3px; }
+.checks-list b { display: inline-block; width: 34px; font-size: 9px; font-weight: 500; }
+.success-text, .danger-text { color: #435563; }
+
+.detail-panels { display: block; border-top: 1px solid #dce2e7; }
+.detail-panels .info-panel { border: 0; border-bottom: 1px solid #e5e9ec; border-radius: 0; background: transparent; padding: 15px 0; }
+.detail-panels .info-panel:last-child { border-bottom: 0; }
+.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 13px; }
+.panel-heading h2 { margin: 0; font-size: 12px; }
+.panel-heading svg { color: #637a89; }
+.panel-caption { color: #86939d; font: 10px "Cascadia Code", Consolas, monospace; }
+.info-panel dl { display: grid; gap: 9px; margin: 0; }
+.detail-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: 11px; }
+.detail-row dt { color: #73818d; flex: 0 0 auto; }
+.detail-row dd { margin: 0; color: #334552; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.detail-row dd strong { color: #253845; font-weight: 600; }
+.panel-empty { color: #8a96a0; font-size: 11px; margin: 0; }
+.payment-status { font-size: 10px; }
+.external-link { display: flex; align-items: center; justify-content: space-between; color: #2b5d7e; border-top: 1px solid #e5e9ec; padding-top: 10px; margin-top: 12px; font-size: 11px; font-weight: 600; }
+.audit-summary { color: #435664; line-height: 1.5; font-size: 11px; margin-bottom: 10px; }
+.violations { border-top: 1px solid #e7eaed; padding-top: 9px; margin: 10px 0; }
+.mini-label { color: #687886; font-size: 9px; font-weight: 500; margin-bottom: 4px; }
+.violations p { color: #675b58; line-height: 1.5; font-size: 11px; margin: 0 0 4px; }
+.audit-meta { border-top: 1px solid #e7eaed; padding-top: 9px; color: #87939e; font-size: 10px; }
+
+@media (max-width: 1200px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr); }
+  .detail-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detail-panels .info-panel:nth-child(odd) { border-right: 1px solid #e5e9ec; }
+  .detail-panels .info-panel:nth-child(-n+2) { border-bottom: 1px solid #e5e9ec; }
+  .usage-item { flex-wrap: wrap; }
+}
+@media (max-width: 850px) {
+  .app-shell { grid-template-columns: 61px minmax(0, 1fr); }
+  .sidebar { padding-left: 7px; padding-right: 7px; }
+  .brand { justify-content: center; padding: 0; }
+  .brand > span:last-child { display: none; }
+  .nav-item { justify-content: center; font-size: 0; padding: 9px; }
+  .nav-item svg { flex: none; }
+  .language-switch { display: flex; flex-direction: column; }
+  .language-switch button { border-right: 0; border-bottom: 1px solid #d7dee3; }
+  .language-switch button:last-child { border-bottom: 0; }
+  main { padding: 20px 19px 35px; }
+  .timeline-item { grid-template-columns: 67px 132px minmax(0, 1fr); gap: 8px; padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; } }
