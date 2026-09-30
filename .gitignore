@@ -5,3 +5,4 @@ out/
 apps/api/src/generated/
 .pnpm-store/
 .npm-cache/
+.demo-backups/
