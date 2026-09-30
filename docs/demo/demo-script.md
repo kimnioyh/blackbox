@@ -2,7 +2,7 @@
 
 ## Before recording
 
-- Start PostgreSQL, then run `pnpm dev:api`, `pnpm dev:mcp`, and `pnpm dev:desktop` in separate terminals. The current local `apps/api/.env` points at `blackbox_demo`; `GET http://localhost:3000/api/v1/cases` should return exactly three Cases.
+- Start PostgreSQL. On a fresh database, run the README's migration/build steps and `pnpm demo:import`. Then run `pnpm dev:api`, `pnpm dev:mcp`, and `pnpm dev:desktop` in separate terminals. The current local `apps/api/.env` points at `blackbox_demo`; `GET http://localhost:3000/api/v1/cases` should return exactly three Cases.
 - Check `GET http://localhost:3000/api/v1/cases/cmumtuehv0007u8yw31ptuymh/proofs/verify` returns `verified: true`. Have the [dispute transaction](https://sepolia.etherscan.io/tx/0x935e7762a443f0357885e0b8bdc72073afde68e985636c2395631a3b38a87b96) open in a browser tab.
 - Do not run `pnpm verify:mcp` against the demo database during the presentation: it creates a new Case. The end-to-end MCP verifier was run against the preserved development database before this three-Case copy was prepared.
 

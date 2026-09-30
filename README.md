@@ -69,6 +69,7 @@ Copy-Item .env.example apps/api/.env  # only when the file does not already exis
 docker compose up -d postgres
 pnpm db:migrate
 pnpm build
+pnpm demo:import  # optional, only on an empty Case table; loads the three submitted Cases
 pnpm typecheck
 pnpm test
 ```
@@ -83,7 +84,7 @@ pnpm dev:mcp
 pnpm dev:desktop
 ```
 
-`pnpm db:seed` creates example actor records, not the three pre-recorded Cases below. This machine's ignored `apps/api/.env` points at a separate local `blackbox_demo` database containing only those Cases; the original development database was preserved. A fresh installation can generate new financial and audit examples with `node scripts/verify-phase45.mjs` and `node scripts/verify-phase6.mjs`; see the [financial](docs/demo/phase45.md) and [audit](docs/demo/phase6.md) walkthroughs. New Case proofs require a configured funded Sepolia signer.
+`pnpm demo:import` loads the three recorded Cases, their evidence timelines, model usage, and two real proof records from [the demo fixture](apps/api/prisma/demo-data.json). It requires an empty Case table and never sends a new transaction. Configure the deployed registry and Sepolia RPC to verify those proofs. `pnpm db:seed` only creates example actor records. This machine's ignored `apps/api/.env` points at a separate local `blackbox_demo` database; the original development database was preserved. To generate new examples instead, use `node scripts/verify-phase45.mjs` and `node scripts/verify-phase6.mjs`; see the [financial](docs/demo/phase45.md) and [audit](docs/demo/phase6.md) walkthroughs. New Case proofs require a funded Sepolia signer.
 
 ## Demo and submission
 

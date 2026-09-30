@@ -1,0 +1,894 @@
+{
+  "format": "blackbox-demo-v1",
+  "cases": [
+    {
+      "id": "cmunels8q000cp0yw55p4it62",
+      "organizationId": null,
+      "ownerUserId": null,
+      "agentId": null,
+      "externalUserId": null,
+      "externalCaseId": "mcp:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "title": "Blocked Amazon keyboard purchase",
+      "status": "BLOCKED",
+      "currentPolicyVersion": 1,
+      "createdAt": "2026-09-30T01:05:33.242Z",
+      "updatedAt": "2026-09-30T01:05:43.166Z",
+      "closedAt": null
+    },
+    {
+      "id": "cmumtuehv0007u8yw31ptuymh",
+      "organizationId": null,
+      "ownerUserId": null,
+      "agentId": null,
+      "externalUserId": null,
+      "externalCaseId": null,
+      "title": "Phase 6 violation",
+      "status": "DISPUTED",
+      "currentPolicyVersion": 1,
+      "createdAt": "2026-09-29T15:24:23.395Z",
+      "updatedAt": "2026-09-29T15:24:29.717Z",
+      "closedAt": null
+    },
+    {
+      "id": "cmumtu7n70000u8yw4v07evjp",
+      "organizationId": null,
+      "ownerUserId": null,
+      "agentId": null,
+      "externalUserId": null,
+      "externalCaseId": null,
+      "title": "Phase 6 normal",
+      "status": "VERIFIED",
+      "currentPolicyVersion": 1,
+      "createdAt": "2026-09-29T15:24:14.515Z",
+      "updatedAt": "2026-09-30T01:06:43.019Z",
+      "closedAt": null
+    }
+  ],
+  "policies": [
+    {
+      "id": "cmumtuat10002u8yw5i4zhl69",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "version": 1,
+      "maxAmount": "50",
+      "currency": "USD",
+      "allowedMerchants": [
+        "Amazon"
+      ],
+      "deadline": null,
+      "rawPolicy": {
+        "currency": "USD",
+        "deadline": null,
+        "maxAmount": "50.00",
+        "allowedMerchants": [
+          "Amazon"
+        ]
+      },
+      "createdAt": "2026-09-29T15:24:18.613Z"
+    },
+    {
+      "id": "cmumtujby0009u8yw9pktein5",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "version": 1,
+      "maxAmount": "30",
+      "currency": "USD",
+      "allowedMerchants": [
+        "Amazon"
+      ],
+      "deadline": null,
+      "rawPolicy": {
+        "currency": "USD",
+        "deadline": null,
+        "maxAmount": "30.00",
+        "allowedMerchants": [
+          "Amazon"
+        ]
+      },
+      "createdAt": "2026-09-29T15:24:29.663Z"
+    },
+    {
+      "id": "cmunelzri000ep0ywiuhswpjj",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "version": 1,
+      "maxAmount": "30",
+      "currency": "USD",
+      "allowedMerchants": [
+        "Amazon"
+      ],
+      "deadline": null,
+      "rawPolicy": {
+        "currency": "USD",
+        "deadline": null,
+        "maxAmount": "30.00",
+        "allowedMerchants": [
+          "Amazon"
+        ]
+      },
+      "createdAt": "2026-09-30T01:05:42.990Z"
+    }
+  ],
+  "approvals": [
+    {
+      "id": "cmumtuauh0003u8yw2cu1fkkk",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "approval:approval",
+      "decision": "APPROVED",
+      "actorUserId": null,
+      "externalActorId": null,
+      "approvedAmount": "45",
+      "currency": "USD",
+      "createdAt": "2026-09-29T15:24:18.665Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "cmumtuauw0004u8yw9ppc7ns4",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "payment:payment",
+      "externalPaymentId": "phase6-normal-payment",
+      "merchant": "Amazon",
+      "subtotal": "42",
+      "fee": "3",
+      "totalAmount": "45",
+      "currency": "USD",
+      "status": "SUCCESS",
+      "executedAt": null,
+      "createdAt": "2026-09-29T15:24:18.680Z"
+    },
+    {
+      "id": "cmumtujd2000au8ywhdti1ffy",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "payment:payment",
+      "externalPaymentId": "phase6-violation-payment",
+      "merchant": "Amazon",
+      "subtotal": "28",
+      "fee": "4",
+      "totalAmount": "32",
+      "currency": "USD",
+      "status": "SUCCESS",
+      "executedAt": null,
+      "createdAt": "2026-09-29T15:24:29.702Z"
+    }
+  ],
+  "auditResults": [
+    {
+      "id": "cmumtueei0006u8ywxau2pnep",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "verdict": "COMPLIANT",
+      "summary": "The purchase of a keyboard from Amazon for $45.00 USD complies with the policy.",
+      "violations": [],
+      "model": "qwen3-32b",
+      "createdAt": "2026-09-29T15:24:23.274Z"
+    },
+    {
+      "id": "cmumtunj0000cu8ywcqp8tn7r",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "verdict": "VIOLATION",
+      "summary": "The $32.00 payment exceeded the $30.00 maximum allowed amount.",
+      "violations": [
+        {
+          "rule": "MAX_AMOUNT",
+          "description": "Allowed total amount was 30.00 USD, but actual payment was 32.00 USD."
+        }
+      ],
+      "model": "qwen3-32b",
+      "createdAt": "2026-09-29T15:24:35.100Z"
+    },
+    {
+      "id": "cmunbrn8i00027kyw7gwy95i4",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "verdict": "COMPLIANT",
+      "summary": "The $45.00 keyboard purchase from Amazon complies with the $50.00 maximum amount policy.",
+      "violations": [],
+      "model": "qwen3-32b",
+      "createdAt": "2026-09-29T23:46:07.842Z"
+    },
+    {
+      "id": "cmunena2f000hp0ywnrqpp9k8",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "verdict": "COMPLIANT",
+      "summary": "The $45.00 keyboard purchase from Amazon was compliant with the $50.00 maximum amount policy.",
+      "violations": [],
+      "model": "qwen3-32b",
+      "createdAt": "2026-09-30T01:06:42.999Z"
+    }
+  ],
+  "blockchainProofs": [
+    {
+      "id": "cmunbr11q00007kyw5mrm3lu8",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "evidenceSequence": 7,
+      "recordHash": "0x591fc6caed612bae9960f0b43c7bfd61b78a2d4f00ebbe027664f26092068b47",
+      "chainId": 11155111,
+      "contractAddress": "0xb7df386863cf3f1056e25d2b28a3f84b14799430",
+      "txHash": "0x6ee2a53e4d89949d5ed6723ed23b33c7d84f7b8505f96e66114cb1424dca720b",
+      "blockNumber": "11810903",
+      "status": "CONFIRMED",
+      "createdAt": "2026-09-29T23:45:39.086Z",
+      "confirmedAt": "2026-09-29T23:45:39.071Z"
+    },
+    {
+      "id": "cmunbvx1p00037kywhabg5ng6",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "evidenceSequence": 7,
+      "recordHash": "0x0bafd9cdc0fcdc2e00e8cda8741cd8536bd88a966a3633658c2ad11010f78e26",
+      "chainId": 11155111,
+      "contractAddress": "0xb7df386863cf3f1056e25d2b28a3f84b14799430",
+      "txHash": "0x935e7762a443f0357885e0b8bdc72073afde68e985636c2395631a3b38a87b96",
+      "blockNumber": "11810922",
+      "status": "CONFIRMED",
+      "createdAt": "2026-09-29T23:49:27.182Z",
+      "confirmedAt": "2026-09-29T23:49:27.180Z"
+    }
+  ],
+  "modelInvocations": [
+    {
+      "id": "cmumtuass0001u8yw6qoohv3w",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "flowType": "POLICY_EXTRACTION",
+      "model": "qwen3-32b",
+      "inputTokens": 106,
+      "outputTokens": 180,
+      "totalTokens": 286,
+      "latencyMs": 3975,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-29T15:24:18.604Z"
+    },
+    {
+      "id": "cmumtuedy0005u8ywyfbtipd3",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "flowType": "AUDIT_EXPLANATION",
+      "model": "qwen3-32b",
+      "inputTokens": 474,
+      "outputTokens": 295,
+      "totalTokens": 769,
+      "latencyMs": 4501,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-29T15:24:23.254Z"
+    },
+    {
+      "id": "cmumtujbh0008u8ywm3wyu310",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "flowType": "POLICY_EXTRACTION",
+      "model": "qwen3-32b",
+      "inputTokens": 106,
+      "outputTokens": 424,
+      "totalTokens": 530,
+      "latencyMs": 6231,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-29T15:24:29.645Z"
+    },
+    {
+      "id": "cmumtunic000bu8yww4e97oqi",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "flowType": "AUDIT_EXPLANATION",
+      "model": "qwen3-32b",
+      "inputTokens": 484,
+      "outputTokens": 352,
+      "totalTokens": 836,
+      "latencyMs": 5346,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-29T15:24:35.076Z"
+    },
+    {
+      "id": "cmunbrn8300017kyw82zd0asf",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "flowType": "AUDIT_EXPLANATION",
+      "model": "qwen3-32b",
+      "inputTokens": 482,
+      "outputTokens": 255,
+      "totalTokens": 737,
+      "latencyMs": 4924,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-29T23:46:07.827Z"
+    },
+    {
+      "id": "cmunelzr6000dp0ywdjerq80j",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "flowType": "POLICY_EXTRACTION",
+      "model": "qwen3-32b",
+      "inputTokens": 106,
+      "outputTokens": 462,
+      "totalTokens": 568,
+      "latencyMs": 9690,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-30T01:05:42.978Z"
+    },
+    {
+      "id": "cmunemq1m000fp0ywnt04kg5y",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "flowType": "AUDIT_EXPLANATION",
+      "model": "qwen3-32b",
+      "inputTokens": 371,
+      "outputTokens": 299,
+      "totalTokens": 670,
+      "latencyMs": 6821,
+      "success": false,
+      "errorMessage": "Kiln audit contradicted deterministic evidence",
+      "createdAt": "2026-09-30T01:06:17.051Z"
+    },
+    {
+      "id": "cmunena1m000gp0yw4ui8dwfy",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "flowType": "AUDIT_EXPLANATION",
+      "model": "qwen3-32b",
+      "inputTokens": 482,
+      "outputTokens": 213,
+      "totalTokens": 695,
+      "latencyMs": 6650,
+      "success": true,
+      "errorMessage": null,
+      "createdAt": "2026-09-30T01:06:42.970Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "13733a0d-bb8d-477c-a8d5-8a323e8ea8d4",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "instruction",
+      "sequence": 1,
+      "eventType": "USER_INSTRUCTION",
+      "actorType": "USER",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "text": "Buy a keyboard from Amazon for no more than $50.",
+        "locale": "en"
+      },
+      "previousEventHash": null,
+      "eventHash": "0xd48779af2c9bc5f41ad4be83b4b831f0a82a1e4683178eccae7ac9a3cda3537d",
+      "occurredAt": "2026-09-29T15:24:14.585Z",
+      "receivedAt": "2026-09-29T15:24:14.613Z"
+    },
+    {
+      "id": "1e08db58-7a82-4956-b6ba-2a04dc971abd",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "policy-parse:parse",
+      "sequence": 2,
+      "eventType": "POLICY_PARSED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "policy": {
+          "currency": "USD",
+          "deadline": null,
+          "maxAmount": "50.00",
+          "allowedMerchants": [
+            "Amazon"
+          ]
+        },
+        "policyId": "cmumtuat10002u8yw5i4zhl69"
+      },
+      "previousEventHash": "0xd48779af2c9bc5f41ad4be83b4b831f0a82a1e4683178eccae7ac9a3cda3537d",
+      "eventHash": "0xa4af48be7d06bc515ffc45747ffdacf1ee69d0fccc4056f11bf6a57e12ae7193",
+      "occurredAt": "2026-09-29T15:24:18.615Z",
+      "receivedAt": "2026-09-29T15:24:18.619Z"
+    },
+    {
+      "id": "3daa6720-86f6-4e16-804d-792bf08bf12a",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "decision",
+      "sequence": 3,
+      "eventType": "AGENT_DECISION",
+      "actorType": "AGENT",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "item": {
+          "name": "Keyboard"
+        },
+        "action": "PURCHASE",
+        "currency": "USD",
+        "merchant": "Amazon",
+        "subtotal": "42.00",
+        "estimatedFee": "3.00",
+        "estimatedTotal": "45.00"
+      },
+      "previousEventHash": "0xa4af48be7d06bc515ffc45747ffdacf1ee69d0fccc4056f11bf6a57e12ae7193",
+      "eventHash": "0x1606ab5eeb439cbb991ce6219d49b281c5832ad80aa71dee9186de056ec33a60",
+      "occurredAt": "2026-09-29T15:24:14.585Z",
+      "receivedAt": "2026-09-29T15:24:18.634Z"
+    },
+    {
+      "id": "ac7a2e69-d600-404e-9a35-952982fafbd7",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "policy-check:check",
+      "sequence": 4,
+      "eventType": "POLICY_CHECK",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "checks": [
+          {
+            "rule": "MAX_AMOUNT",
+            "actual": "45.00 USD",
+            "result": "PASS",
+            "expected": "50.00 USD"
+          },
+          {
+            "rule": "ALLOWED_MERCHANT",
+            "actual": "Amazon",
+            "result": "PASS",
+            "expected": "Amazon"
+          }
+        ],
+        "result": "ALLOW",
+        "policyId": "cmumtuat10002u8yw5i4zhl69",
+        "reasonCodes": []
+      },
+      "previousEventHash": "0x1606ab5eeb439cbb991ce6219d49b281c5832ad80aa71dee9186de056ec33a60",
+      "eventHash": "0xaabdb5c1329da75bae2a4e472bef04be42580e04b6cd646442b21aa339a224a1",
+      "occurredAt": "2026-09-29T15:24:18.647Z",
+      "receivedAt": "2026-09-29T15:24:18.650Z"
+    },
+    {
+      "id": "7b5a7381-cf37-4545-9d4d-f32e0100cd5b",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "approval:approval",
+      "sequence": 5,
+      "eventType": "HUMAN_APPROVAL",
+      "actorType": "USER",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "currency": "USD",
+        "decision": "APPROVED",
+        "approvalId": "cmumtuauh0003u8yw2cu1fkkk",
+        "approvedAmount": "45.00"
+      },
+      "previousEventHash": "0xaabdb5c1329da75bae2a4e472bef04be42580e04b6cd646442b21aa339a224a1",
+      "eventHash": "0xa918205705e324bc4b998dc1aa1c989d3eb9a5b10a1f25d687d1e88f2151d8c7",
+      "occurredAt": "2026-09-29T15:24:18.664Z",
+      "receivedAt": "2026-09-29T15:24:18.669Z"
+    },
+    {
+      "id": "dfd38ff8-19dc-4236-ada3-de804e542b77",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "payment:payment",
+      "sequence": 6,
+      "eventType": "PAYMENT_EXECUTED",
+      "actorType": "EXTERNAL_SERVICE",
+      "actorId": null,
+      "source": "PAYMENT_PROVIDER",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "fee": "3.00",
+        "status": "SUCCESS",
+        "currency": "USD",
+        "merchant": "Amazon",
+        "subtotal": "42.00",
+        "paymentId": "cmumtuauw0004u8yw9ppc7ns4",
+        "totalAmount": "45.00",
+        "externalPaymentId": "phase6-normal-payment"
+      },
+      "previousEventHash": "0xa918205705e324bc4b998dc1aa1c989d3eb9a5b10a1f25d687d1e88f2151d8c7",
+      "eventHash": "0x2269a81c21b22c54cdd3dc3db73ad383e174de491756314a7d4bbb64ee59d2f9",
+      "occurredAt": "2026-09-29T15:24:18.680Z",
+      "receivedAt": "2026-09-29T15:24:18.683Z"
+    },
+    {
+      "id": "f1aa83b8-982f-4e46-a43a-4d9fb6deb6e9",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "audit:audit",
+      "sequence": 7,
+      "eventType": "AUDIT_RESULT",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "auditId": "cmumtueei0006u8ywxau2pnep",
+        "summary": "The purchase of a keyboard from Amazon for $45.00 USD complies with the policy.",
+        "verdict": "COMPLIANT",
+        "violations": []
+      },
+      "previousEventHash": "0x2269a81c21b22c54cdd3dc3db73ad383e174de491756314a7d4bbb64ee59d2f9",
+      "eventHash": "0x14dbc64548f6fe2613e15b0afa360389e2dd54d65e9af76565da42ed62c9f910",
+      "occurredAt": "2026-09-29T15:24:23.276Z",
+      "receivedAt": "2026-09-29T15:24:23.279Z"
+    },
+    {
+      "id": "f4736ba5-a2e1-4e88-992f-d1888af9a285",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "proof:phase5-real-sepolia-20260930-1",
+      "sequence": 8,
+      "eventType": "PROOF_RECORDED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "BLOCKCHAIN",
+      "verificationLevel": "ON_CHAIN",
+      "payload": {
+        "txHash": "0x6ee2a53e4d89949d5ed6723ed23b33c7d84f7b8505f96e66114cb1424dca720b",
+        "chainId": 11155111,
+        "proofId": "cmunbr11q00007kyw5mrm3lu8",
+        "recordHash": "0x591fc6caed612bae9960f0b43c7bfd61b78a2d4f00ebbe027664f26092068b47",
+        "blockNumber": "11810903"
+      },
+      "previousEventHash": "0x14dbc64548f6fe2613e15b0afa360389e2dd54d65e9af76565da42ed62c9f910",
+      "eventHash": "0xc689e52cdc15c2cc3a242928c219a5ec836075c39e86432e766a140a03ac89ec",
+      "occurredAt": "2026-09-29T23:45:39.120Z",
+      "receivedAt": "2026-09-29T23:45:39.136Z"
+    },
+    {
+      "id": "51aeabf8-467d-4c7c-97d8-d8973eab77c3",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "audit:phase5-after-proof-audit-20260930-1",
+      "sequence": 9,
+      "eventType": "AUDIT_RESULT",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "auditId": "cmunbrn8i00027kyw7gwy95i4",
+        "summary": "The $45.00 keyboard purchase from Amazon complies with the $50.00 maximum amount policy.",
+        "verdict": "COMPLIANT",
+        "violations": []
+      },
+      "previousEventHash": "0xc689e52cdc15c2cc3a242928c219a5ec836075c39e86432e766a140a03ac89ec",
+      "eventHash": "0x7209b3dbf96a8b30499d1698df027214a6f33e4f597e6af062f9f993a7bce504",
+      "occurredAt": "2026-09-29T23:46:07.847Z",
+      "receivedAt": "2026-09-29T23:46:07.858Z"
+    },
+    {
+      "id": "172cc469-14c5-4458-85b4-0655d5355af3",
+      "caseId": "cmumtu7n70000u8yw4v07evjp",
+      "idempotencyKey": "audit:phase9-normal-audit",
+      "sequence": 10,
+      "eventType": "AUDIT_RESULT",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "auditId": "cmunena2f000hp0ywnrqpp9k8",
+        "summary": "The $45.00 keyboard purchase from Amazon was compliant with the $50.00 maximum amount policy.",
+        "verdict": "COMPLIANT",
+        "violations": []
+      },
+      "previousEventHash": "0x7209b3dbf96a8b30499d1698df027214a6f33e4f597e6af062f9f993a7bce504",
+      "eventHash": "0xf1a5a7a4d211125a41bfdfe5cb7bd3adf6fce5b48ccfc3d2eda4c44414b923c5",
+      "occurredAt": "2026-09-30T01:06:43.003Z",
+      "receivedAt": "2026-09-30T01:06:43.010Z"
+    },
+    {
+      "id": "3582d2b9-a034-4094-b6e8-6adc42510344",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "instruction",
+      "sequence": 1,
+      "eventType": "USER_INSTRUCTION",
+      "actorType": "USER",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "text": "Buy a keyboard from Amazon for no more than $30.",
+        "locale": "en"
+      },
+      "previousEventHash": null,
+      "eventHash": "0x94a36ba9dddc32c9cd840ba1c5a604d68964bdb15ea40b66508724a3817764dd",
+      "occurredAt": "2026-09-29T15:24:23.399Z",
+      "receivedAt": "2026-09-29T15:24:23.407Z"
+    },
+    {
+      "id": "2e396666-1e7e-4dd8-8585-ee58f209875a",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "policy-parse:parse",
+      "sequence": 2,
+      "eventType": "POLICY_PARSED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "policy": {
+          "currency": "USD",
+          "deadline": null,
+          "maxAmount": "30.00",
+          "allowedMerchants": [
+            "Amazon"
+          ]
+        },
+        "policyId": "cmumtujby0009u8yw9pktein5"
+      },
+      "previousEventHash": "0x94a36ba9dddc32c9cd840ba1c5a604d68964bdb15ea40b66508724a3817764dd",
+      "eventHash": "0x7109cf392f1c46b53dfbeb2dd6b990159f539f8f4af36a70958924df4c5eab8d",
+      "occurredAt": "2026-09-29T15:24:29.666Z",
+      "receivedAt": "2026-09-29T15:24:29.670Z"
+    },
+    {
+      "id": "29259fa7-3865-4d9d-b95d-7ff934e24a1a",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "decision",
+      "sequence": 3,
+      "eventType": "AGENT_DECISION",
+      "actorType": "AGENT",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "item": {
+          "name": "Keyboard"
+        },
+        "action": "PURCHASE",
+        "currency": "USD",
+        "merchant": "Amazon",
+        "subtotal": "28.00",
+        "estimatedFee": "0.00",
+        "estimatedTotal": "28.00"
+      },
+      "previousEventHash": "0x7109cf392f1c46b53dfbeb2dd6b990159f539f8f4af36a70958924df4c5eab8d",
+      "eventHash": "0xb81eb3e7886f423b6893772a7c8b1931a5d11994c04ba98d064494038016e3a7",
+      "occurredAt": "2026-09-29T15:24:23.399Z",
+      "receivedAt": "2026-09-29T15:24:29.682Z"
+    },
+    {
+      "id": "dc401e1b-7768-4c00-9bcd-9cebf5d0251d",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "policy-check:check",
+      "sequence": 4,
+      "eventType": "POLICY_CHECK",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "checks": [
+          {
+            "rule": "MAX_AMOUNT",
+            "actual": "28.00 USD",
+            "result": "PASS",
+            "expected": "30.00 USD"
+          },
+          {
+            "rule": "ALLOWED_MERCHANT",
+            "actual": "Amazon",
+            "result": "PASS",
+            "expected": "Amazon"
+          }
+        ],
+        "result": "ALLOW",
+        "policyId": "cmumtujby0009u8yw9pktein5",
+        "reasonCodes": []
+      },
+      "previousEventHash": "0xb81eb3e7886f423b6893772a7c8b1931a5d11994c04ba98d064494038016e3a7",
+      "eventHash": "0x0a92dd0336d5340ca838eab0729f0f777a6e0130fe3f58272a7345a44d6ad35e",
+      "occurredAt": "2026-09-29T15:24:29.691Z",
+      "receivedAt": "2026-09-29T15:24:29.692Z"
+    },
+    {
+      "id": "072264c3-b09f-4051-a585-7737871982c5",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "payment:payment",
+      "sequence": 5,
+      "eventType": "PAYMENT_EXECUTED",
+      "actorType": "EXTERNAL_SERVICE",
+      "actorId": null,
+      "source": "PAYMENT_PROVIDER",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "fee": "4.00",
+        "status": "SUCCESS",
+        "currency": "USD",
+        "merchant": "Amazon",
+        "subtotal": "28.00",
+        "paymentId": "cmumtujd2000au8ywhdti1ffy",
+        "totalAmount": "32.00",
+        "externalPaymentId": "phase6-violation-payment"
+      },
+      "previousEventHash": "0x0a92dd0336d5340ca838eab0729f0f777a6e0130fe3f58272a7345a44d6ad35e",
+      "eventHash": "0x1753d80b6e17e14ee8f6a5ed88a8989144a648c9082f1bac61e9cf1ece93b80c",
+      "occurredAt": "2026-09-29T15:24:29.702Z",
+      "receivedAt": "2026-09-29T15:24:29.705Z"
+    },
+    {
+      "id": "46b06b82-f97c-4964-9e1c-d2d16dff5d96",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "dispute:dispute",
+      "sequence": 6,
+      "eventType": "DISPUTE_CREATED",
+      "actorType": "USER",
+      "actorId": null,
+      "source": "REST_API",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "reason": "The $32 charge exceeded my $30 limit.",
+        "requestedBy": "USER",
+        "disputedPaymentId": "cmumtujd2000au8ywhdti1ffy"
+      },
+      "previousEventHash": "0x1753d80b6e17e14ee8f6a5ed88a8989144a648c9082f1bac61e9cf1ece93b80c",
+      "eventHash": "0x9c57db90bb5ff32668017275842823585f5bfc767d90b94e3d7f71b527ba3d4d",
+      "occurredAt": "2026-09-29T15:24:29.712Z",
+      "receivedAt": "2026-09-29T15:24:29.714Z"
+    },
+    {
+      "id": "1b119cd4-dbbf-41b9-9f52-e973f6f561a7",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "audit:audit",
+      "sequence": 7,
+      "eventType": "AUDIT_RESULT",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "auditId": "cmumtunj0000cu8ywcqp8tn7r",
+        "summary": "The $32.00 payment exceeded the $30.00 maximum allowed amount.",
+        "verdict": "VIOLATION",
+        "violations": [
+          {
+            "rule": "MAX_AMOUNT",
+            "description": "Allowed total amount was 30.00 USD, but actual payment was 32.00 USD."
+          }
+        ]
+      },
+      "previousEventHash": "0x9c57db90bb5ff32668017275842823585f5bfc767d90b94e3d7f71b527ba3d4d",
+      "eventHash": "0x88f2e3e5c1493c55cad7b5f9802f7c9cdf6abd6ba5c6959a38c720b055259c84",
+      "occurredAt": "2026-09-29T15:24:35.103Z",
+      "receivedAt": "2026-09-29T15:24:35.106Z"
+    },
+    {
+      "id": "65cfd313-c2bd-4927-8ca8-36a19bb694c4",
+      "caseId": "cmumtuehv0007u8yw31ptuymh",
+      "idempotencyKey": "proof:phase7-dispute-sepolia-20260930-1",
+      "sequence": 8,
+      "eventType": "PROOF_RECORDED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "BLOCKCHAIN",
+      "verificationLevel": "ON_CHAIN",
+      "payload": {
+        "txHash": "0x935e7762a443f0357885e0b8bdc72073afde68e985636c2395631a3b38a87b96",
+        "chainId": 11155111,
+        "proofId": "cmunbvx1p00037kywhabg5ng6",
+        "recordHash": "0x0bafd9cdc0fcdc2e00e8cda8741cd8536bd88a966a3633658c2ad11010f78e26",
+        "blockNumber": "11810922"
+      },
+      "previousEventHash": "0x88f2e3e5c1493c55cad7b5f9802f7c9cdf6abd6ba5c6959a38c720b055259c84",
+      "eventHash": "0xc89c82ded8e60939f9605755f41f5812a0b346fe577ec11ca05d5c99c06751e2",
+      "occurredAt": "2026-09-29T23:49:27.186Z",
+      "receivedAt": "2026-09-29T23:49:27.191Z"
+    },
+    {
+      "id": "097a6345-50b5-4229-b67f-558940e94e5f",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "idempotencyKey": "mcp-start-instruction:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "sequence": 1,
+      "eventType": "USER_INSTRUCTION",
+      "actorType": "USER",
+      "actorId": null,
+      "source": "MCP",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "text": "Buy a keyboard from Amazon for no more than $30.",
+        "locale": "en"
+      },
+      "previousEventHash": null,
+      "eventHash": "0xddd52f44a5bcfcc26702daf296c673c6b496606a5f3738d07291e6e59ec4e7f2",
+      "occurredAt": "2026-09-30T01:05:33.264Z",
+      "receivedAt": "2026-09-30T01:05:33.273Z"
+    },
+    {
+      "id": "109d1ccf-2ef2-4e12-b729-9aa3a58dbde1",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "idempotencyKey": "policy-parse:mcp-start-parse:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "sequence": 2,
+      "eventType": "POLICY_PARSED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "policy": {
+          "currency": "USD",
+          "deadline": null,
+          "maxAmount": "30.00",
+          "allowedMerchants": [
+            "Amazon"
+          ]
+        },
+        "policyId": "cmunelzri000ep0ywiuhswpjj"
+      },
+      "previousEventHash": "0xddd52f44a5bcfcc26702daf296c673c6b496606a5f3738d07291e6e59ec4e7f2",
+      "eventHash": "0x13267e95f24b551faf172225d39607491f041d64bb55f8787aa63358a38766a0",
+      "occurredAt": "2026-09-30T01:05:42.993Z",
+      "receivedAt": "2026-09-30T01:05:42.998Z"
+    },
+    {
+      "id": "143b2cc8-7944-43e7-a6bb-65298b877d90",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "idempotencyKey": "mcp-decision:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "sequence": 3,
+      "eventType": "AGENT_DECISION",
+      "actorType": "AGENT",
+      "actorId": null,
+      "source": "MCP",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "item": {
+          "name": "Mechanical Keyboard"
+        },
+        "action": "PURCHASE",
+        "currency": "USD",
+        "merchant": "Amazon",
+        "subtotal": "38.00",
+        "estimatedFee": "4.00",
+        "estimatedTotal": "42.00"
+      },
+      "previousEventHash": "0x13267e95f24b551faf172225d39607491f041d64bb55f8787aa63358a38766a0",
+      "eventHash": "0x6b511b6a1e9ef78d7c4a052e3af41d769315bf7d9cdeea746e1ab6f49d3d8347",
+      "occurredAt": "2026-09-30T01:05:43.149Z",
+      "receivedAt": "2026-09-30T01:05:43.150Z"
+    },
+    {
+      "id": "630c5aaa-eecd-4ac4-afca-68fbc0b7de15",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "idempotencyKey": "policy-check:mcp-check:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "sequence": 4,
+      "eventType": "POLICY_CHECK",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "checks": [
+          {
+            "rule": "MAX_AMOUNT",
+            "actual": "42.00 USD",
+            "result": "FAIL",
+            "expected": "30.00 USD"
+          },
+          {
+            "rule": "ALLOWED_MERCHANT",
+            "actual": "Amazon",
+            "result": "PASS",
+            "expected": "Amazon"
+          }
+        ],
+        "result": "BLOCK",
+        "policyId": "cmunelzri000ep0ywiuhswpjj",
+        "reasonCodes": [
+          "BUDGET_EXCEEDED"
+        ]
+      },
+      "previousEventHash": "0x6b511b6a1e9ef78d7c4a052e3af41d769315bf7d9cdeea746e1ab6f49d3d8347",
+      "eventHash": "0xc4f703bc36141aa97deba03bfde38b54e7b21c5e3477440e795bc76143c5dcf3",
+      "occurredAt": "2026-09-30T01:05:43.160Z",
+      "receivedAt": "2026-09-30T01:05:43.161Z"
+    },
+    {
+      "id": "53210ed6-f654-4147-9407-02b7fd261b9c",
+      "caseId": "cmunels8q000cp0yw55p4it62",
+      "idempotencyKey": "payment-blocked:mcp-check:verify-0b23c251-b8f9-43d4-bf9e-406c9302d805",
+      "sequence": 5,
+      "eventType": "PAYMENT_BLOCKED",
+      "actorType": "SYSTEM",
+      "actorId": null,
+      "source": "INTERNAL",
+      "verificationLevel": "SELF_REPORTED",
+      "payload": {
+        "currency": "USD",
+        "reasonCodes": [
+          "BUDGET_EXCEEDED"
+        ],
+        "attemptedAmount": "42.00"
+      },
+      "previousEventHash": "0xc4f703bc36141aa97deba03bfde38b54e7b21c5e3477440e795bc76143c5dcf3",
+      "eventHash": "0xa5eae46489b6a6430552141988fdbecdb1fe0b5ddfeb185920180b27f60b4779",
+      "occurredAt": "2026-09-30T01:05:43.160Z",
+      "receivedAt": "2026-09-30T01:05:43.164Z"
+    }
+  ]
+}

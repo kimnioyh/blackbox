@@ -13,6 +13,7 @@
     "test": "pnpm -r --sort test",
     "db:generate": "pnpm --filter @blackbox/api db:generate",
     "db:migrate": "pnpm --filter @blackbox/api db:migrate",
-    "db:seed": "pnpm --filter @blackbox/api db:seed"
+    "db:seed": "pnpm --filter @blackbox/api db:seed",
+    "demo:import": "pnpm --filter @blackbox/api demo:import"
   }
 }
