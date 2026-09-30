@@ -10,4 +10,4 @@ The live demo shows a compliant $45 payment, a blocked $42 proposal against a $3
 
 **Stack:** TypeScript, NestJS, Prisma, PostgreSQL, Zod, Kiln/Qwen3-32B, MCP TypeScript SDK v2, Electron/React/Vite, Solidity, viem, Sepolia.
 
-**Repository:** [github.com/kimnioyh/forHack](https://github.com/kimnioyh/forHack)
+**Repository:** [github.com/kimnioyh/blackbox](https://github.com/kimnioyh/blackbox)
